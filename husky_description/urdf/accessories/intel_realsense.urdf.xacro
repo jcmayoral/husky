@@ -57,10 +57,17 @@
       </xacro:if>
     </xacro:if>
 
+    <!--
+      original realsense fov   h_fov:=1.5184351666666667 v_fov:=1.0122901111111111
+
+    -->
+    <xacro:property name="h_fov"     default="2.21657"/>
+    <xacro:property name="v_fov"     default="1.387537"/>
+
     <xacro:macro name="realsense_gazebo" params="
               prefix=front              model=d4
               frame:=realsense          topic:=realsense
-              h_fov:=1.5184351666666667 v_fov:=1.0122901111111111
+              h_fov:=${h_fov} v_fov:=${v_fov}
               min_range:=0.105          max_range:=8.0
               width:=640                height:=480
               update_rate:=30
@@ -138,8 +145,8 @@
          prefix="${prefix}"
          frame="${prefix}_realsense_link"
          topic="${topic}"
-         h_fov="1.5184351666666667"
-         v_fov="1.0122901111111111"
+         h_fov="${h_fov}"
+         v_fov="${v_fov}"
          min_range="0.105"
          max_range="8.0"
          width="${width}"
@@ -157,8 +164,8 @@
          prefix="${prefix}"
          frame="${prefix}_realsense_link"
          topic="${topic}"
-         h_fov="1.5184351666666667"
-         v_fov="1.0122901111111111"
+         h_fov="${h_fov}"
+         v_fov="${v_fov}"
          min_range="0.105"
          max_range="8.0"
          width="${width}"
@@ -208,8 +215,8 @@
          prefix="${prefix}"
          frame="${prefix}_realsense_link"
          topic="${topic}"
-         h_fov="1.1344640137963142"
-         v_fov="0.6981317007977318"
+         h_fov="${h_fov}"
+         v_fov="${v_fov}"
          min_range="0.3"
          max_range="5.0"
          width="${width}"
@@ -228,8 +235,8 @@
          prefix="${prefix}"
          frame="${prefix}_realsense_link"
          topic="${topic}"
-         h_fov="1.5009831567151233"
-         v_fov="0.9948376736367678"
+         h_fov="${h_fov}"
+         v_fov="${v_fov}"
          min_range="0.5"
          max_range="20.0"
          width="${width}"
@@ -284,8 +291,8 @@
          prefix="${prefix}"
          frame="${prefix}_realsense_link"
          topic="${topic}"
-         h_fov="1.2217304763960306"
-         v_fov="0.9599310885968813"
+         h_fov="${h_fov}"
+         v_fov="${v_fov}"
          min_range="0.25"
          max_range="9.0"
          width="${width}"

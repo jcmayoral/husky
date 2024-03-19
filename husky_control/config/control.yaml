@@ -1,3 +1,9 @@
+husky_rotation_state_controller:
+  type: "effort_controllers/JointPositionController"
+  publish_rate: 50
+  joint: rotation_joint
+  pid: {p: 3, i: 0.5, d: 1.0}
+
 husky_joint_publisher:
   type: "joint_state_controller/JointStateController"
   publish_rate: 50
