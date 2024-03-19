@@ -183,6 +183,53 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   </link>
 
 
+  <link name="camera_base">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <!--collision>
+      <origin xyz="0.1 0.1 0.1" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision-->
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.1" />
+        <inertia
+          ixx="0.01" ixy="0.0" ixz="0.0"
+          iyy="0.01" iyz="0.0"
+          izz="0.01" />
+    </inertial>
+  </link>
+
+ <!-- test link for camera_base -->
+  <link name="prismatic_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.2" radius="0.1"/>
+      </geometry>
+    </visual>
+    <!--collision>
+      <origin xyz="0.1 0.1 0.1" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.2" radius="0.1"/>
+      </geometry>
+    </collision-->
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.1" />
+        <inertia
+          ixx="0.01" ixy="0.0" ixz="0.0"
+          iyy="0.01" iyz="0.0"
+          izz="0.01" />
+    </inertial>
+  </link>
+
   <!-- test link for rotation -->
   <link name="rotation_link">
     <visual>
@@ -207,9 +254,28 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </inertial>
   </link>
 
-  <joint name="rotation_joint" type="continuous">
+
+  <!--camera base-->
+  <joint name="camera_base_joint" type="fixed">
     <origin xyz="0.5 0 0.07" rpy="0 0 0" />
     <parent link="base_link" />
+    <child link="camera_base" />
+  </joint>
+
+  <!--camera prismatic-->
+  <joint name="prismatic_joint" type="prismatic">
+    <origin xyz="0.0 0 0.2" rpy="0 0 0" />
+    <parent link="camera_base" />
+    <child link="prismatic_link" />
+		<axis xyz="0 0 1" rpy="0 0 0" />
+    <limit lower="-1" upper="1" effort="23000" velocity="0.1"/>
+  </joint>
+
+
+  <!--camera rotation joint-->
+  <joint name="rotation_joint" type="continuous">
+    <origin xyz="0 0 0.0" rpy="0 0 0" />
+    <parent link="prismatic_link" />
     <child link="rotation_link" />
 		<axis xyz="0 1 0" rpy="0 0 0" />
   </joint>
@@ -436,6 +502,16 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </plugin>
   </gazebo>
 
+  <transmission name="prismatic_trans" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="prismatic_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="prismatic_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
 
   <transmission name="rotation_trans" type="SimpleTransmission">
     <type>transmission_interface/SimpleTransmission</type>
